@@ -9,6 +9,9 @@
         @includeIf($beforeCalendarView)
     </div>
 
+    {{-- Right aligned settigns icon --}}
+    @include('livewire-calendar::header')
+
     <div class="flex">
         <div class="overflow-x-auto w-full">
             <div class="inline-block min-w-full overflow-hidden">
