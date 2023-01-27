@@ -1,6 +1,6 @@
 <?php
 
-namespace Asantibanez\LivewireCalendar;
+namespace Ebdm\LivewireCalendar;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
