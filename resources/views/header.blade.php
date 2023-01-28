@@ -1,4 +1,4 @@
-<header class="flex items-center justify-between border-b border-gray-200 py-4 px-6 lg:flex-none">
+<header class="flex items-center justify-between border-b border-gray-200 dark:border-gray-600 py-4 px-6 lg:flex-none">
   <h1 class="text-lg font-semibold text-gray-900 dark:text-white">
     <time datetime="2022-01">{{ $startsAt->englishMonth }} {{ $startsAt->year }}</time>
   </h1>

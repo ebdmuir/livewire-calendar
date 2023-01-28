@@ -4,7 +4,7 @@
     ondragleave="onLivewireCalendarEventDragLeave(event, '{{ $componentId }}', '{{ $day }}', '{{ $dragAndDropClasses }}');"
     ondragover="onLivewireCalendarEventDragOver(event);"
     ondrop="onLivewireCalendarEventDrop(event, '{{ $componentId }}', '{{ $day }}', {{ $day->year }}, {{ $day->month }}, {{ $day->day }}, '{{ $dragAndDropClasses }}');"
-    class="flex-1 border border-gray-200 -mt-px -ml-px"
+    class="flex-1 border border-gray-200 dark:border-gray-600 -mt-px -ml-px"
     style="min-width: 10rem; height: {{ $cardHeight }}rem">
     {{-- h-40 or h-80 --}}
 
@@ -17,7 +17,7 @@
             @if($dayClickEnabled)
                 wire:click="onDayClick({{ $day->year }}, {{ $day->month }}, {{ $day->day }})"
             @endif
-            class="w-full h-full p-2 {{ $dayInMonth ? $isToday ? 'bg-yellow-100' : ' bg-white ' : 'bg-gray-100' }} flex flex-col">
+            class="w-full h-full p-2 {{ $dayInMonth ? $isToday ? 'bg-yellow-100 dark:bg-yellow-800' : 'bg-white dark:bg-gray-800' : 'bg-gray-100' }} flex flex-col">
 
             {{-- Number of Day --}}
             <div class="flex items-center">
