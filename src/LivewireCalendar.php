@@ -59,8 +59,9 @@ class LivewireCalendar extends Component
     public $dragAndDropEnabled;
     public $dayClickEnabled;
     public $eventClickEnabled;
-    public $increment = 'week';
+    public $increment;
     public $menuOpen;
+    public $cardHeight;
 
     protected $casts = [
         'startsAt' => 'date',
@@ -86,6 +87,9 @@ class LivewireCalendar extends Component
         $dragAndDropEnabled = true,
         $dayClickEnabled = true,
         $eventClickEnabled = true,
+        $increment = 'week',
+        $menuOpen = false,
+        $cardHeight = 40,
         $extras = []
     ) {
         $this->weekStartsAt = $weekStartsAt ?? Carbon::MONDAY;
@@ -96,8 +100,13 @@ class LivewireCalendar extends Component
         $initialYear = $initialYear ?? Carbon::today()->year;
         $initialMonth = $initialMonth ?? Carbon::today()->month;
 
-        $this->startsAt = Carbon::today()->startOfWeek();
-        $this->endsAt = $this->startsAt->clone()->endOfWeek()->startOfDay();
+        if($increment == 'week') {
+            $this->goToCurrentWeek();
+        } elseif($increment == 'month') {
+            $this->goToCurrentMonth();
+        } else {
+            throw new Exception('Invalid increment value. Must be "week" or "month".');
+        }
 
         $this->calculateGridStartsEnds();
 
@@ -110,6 +119,10 @@ class LivewireCalendar extends Component
 
         $this->dayClickEnabled = $dayClickEnabled;
         $this->eventClickEnabled = $eventClickEnabled;
+
+        $this->increment = $increment;
+        $this->menuOpen = $menuOpen;
+        $this->cardHeight = $cardHeight;
 
         $this->afterMount($extras);
     }
@@ -192,20 +205,20 @@ class LivewireCalendar extends Component
         $this->calculateGridStartsEnds();
     }
 
-    public function increment() 
+    public function increment()
     {
-        if($this->increment == 'week') {
+        if ($this->increment == 'week') {
             $this->goToNextWeek();
-        } elseif($this->increment == 'month') {
+        } elseif ($this->increment == 'month') {
             $this->goToNextMonth();
         }
     }
 
     public function decrement()
     {
-        if($this->increment == 'week') {
+        if ($this->increment == 'week') {
             $this->goToPreviousWeek();
-        } elseif($this->increment == 'month') {
+        } elseif ($this->increment == 'month') {
             $this->goToPreviousMonth();
         }
     }
@@ -303,10 +316,12 @@ class LivewireCalendar extends Component
     {
         $this->increment = $mode;
 
-        if($mode == 'week') {
+        if ($mode == 'week') {
             $this->goToCurrentWeek();
-        } elseif($mode == 'month') {
+            $this->cardHeight = 40;
+        } elseif ($mode == 'month') {
             $this->goToCurrentMonth();
+            $this->cardHeight = 10;
         }
 
         $this->menuOpen = false;

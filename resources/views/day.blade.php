@@ -4,8 +4,9 @@
     ondragleave="onLivewireCalendarEventDragLeave(event, '{{ $componentId }}', '{{ $day }}', '{{ $dragAndDropClasses }}');"
     ondragover="onLivewireCalendarEventDragOver(event);"
     ondrop="onLivewireCalendarEventDrop(event, '{{ $componentId }}', '{{ $day }}', {{ $day->year }}, {{ $day->month }}, {{ $day->day }}, '{{ $dragAndDropClasses }}');"
-    class="flex-1 h-40 lg:h-48 border border-gray-200 -mt-px -ml-px"
-    style="min-width: 10rem;">
+    class="flex-1 border border-gray-200 -mt-px -ml-px"
+    style="min-width: 10rem; height: {{ $cardHeight }}rem">
+    {{-- h-40 or h-80 --}}
 
     {{-- Wrapper for Drag and Drop --}}
     <div
