@@ -9,7 +9,6 @@
         @includeIf($beforeCalendarView)
     </div>
 
-    {{-- Right aligned settigns icon --}}
     @include('livewire-calendar::header')
 
     <div class="flex">
@@ -29,7 +28,7 @@
                                     'componentId' => $componentId,
                                     'day' => $day,
                                     'dayInMonth' => $day->isSameMonth($startsAt),
-                                    'isToday' => $day->isToday(),
+                                    'isToday' => $day->isSameDay($selectedDate),
                                     'events' => $getEventsForDay($day, $events),
                                 ])
                         @endforeach

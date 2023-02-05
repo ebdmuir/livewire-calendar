@@ -35,6 +35,7 @@ class LivewireCalendar extends Component
 {
     public $startsAt;
     public $endsAt;
+    public $selectedDate;
 
     public $gridStartsAt;
     public $gridEndsAt;
@@ -89,7 +90,6 @@ class LivewireCalendar extends Component
         $eventClickEnabled = true,
         $increment = 'week',
         $menuOpen = false,
-        $cardHeight = 40,
         $extras = []
     ) {
         $this->weekStartsAt = $weekStartsAt ?? Carbon::MONDAY;
@@ -100,15 +100,7 @@ class LivewireCalendar extends Component
         $initialYear = $initialYear ?? Carbon::today()->year;
         $initialMonth = $initialMonth ?? Carbon::today()->month;
 
-        if($increment == 'week') {
-            $this->goToCurrentWeek();
-        } elseif($increment == 'month') {
-            $this->goToCurrentMonth();
-        } else {
-            throw new Exception('Invalid increment value. Must be "week" or "month".');
-        }
-
-        $this->calculateGridStartsEnds();
+        $this->setMode($increment);
 
         $this->setupViews($calendarView, $dayView, $eventView, $dayOfWeekView, $beforeCalendarView, $afterCalendarView, $settingsView);
 
@@ -122,7 +114,6 @@ class LivewireCalendar extends Component
 
         $this->increment = $increment;
         $this->menuOpen = $menuOpen;
-        $this->cardHeight = $cardHeight;
 
         $this->afterMount($extras);
     }
@@ -177,6 +168,7 @@ class LivewireCalendar extends Component
     {
         $this->startsAt = Carbon::today()->startOfMonth()->startOfDay();
         $this->endsAt = $this->startsAt->clone()->endOfMonth()->startOfDay();
+        $this->selectedDate = Carbon::today();
 
         $this->calculateGridStartsEnds();
     }
@@ -185,6 +177,7 @@ class LivewireCalendar extends Component
     {
         $this->startsAt = Carbon::today()->startOfWeek($this->weekStartsAt)->startOfDay();
         $this->endsAt = $this->startsAt->clone()->endOfWeek($this->weekEndsAt)->startOfDay();
+        $this->selectedDate = Carbon::today();
 
         $this->calculateGridStartsEnds();
     }
@@ -275,7 +268,7 @@ class LivewireCalendar extends Component
 
     public function onDayClick($year, $month, $day)
     {
-        //
+        $this->selectedDate = Carbon::create($year, $month, $day)->startOfDay();
     }
 
     public function onEventClick($eventId)
@@ -284,6 +277,11 @@ class LivewireCalendar extends Component
     }
 
     public function onEventDropped($eventId, $year, $month, $day)
+    {
+        //
+    }
+
+    public function onModeChange($mode)
     {
         //
     }
@@ -325,5 +323,6 @@ class LivewireCalendar extends Component
         }
 
         $this->menuOpen = false;
+        $this->onModeChange($mode);
     }
 }
